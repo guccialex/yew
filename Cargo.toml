@@ -9,6 +9,7 @@ members = [
 
   # Examples
   "examples/agents",
+  "examples/async_reqwest",
   "examples/boids",
   "examples/contexts",
   "examples/counter",
