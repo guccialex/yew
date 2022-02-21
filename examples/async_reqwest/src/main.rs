@@ -4,7 +4,7 @@ use yew::{html, Component, Context, Html};
 //fetch from the trunk server, the data in the files
 async fn fetch_yew_readme( )  -> Option<String>{
 
-    //whatever api you call must have the same origin or allow CORS
+    //whatever resource you request must be from the same origin or allow CORS
     let url = "https://raw.githubusercontent.com/yewstack/yew/master/README.md";
 
     let client = reqwest::Client::new();
@@ -76,10 +76,11 @@ impl Component for App {
 
         if let Some(html) = &self.htmltorender{
 
-            //Set the html of the body of the document            
-            gloo_utils::body().set_inner_html(&html.clone());
-
-            html!{}
+            //from https://github.com/yewstack/yew/blob/master/examples/inner_html/src/main.rs
+            let div = gloo_utils::document().create_element("div").unwrap();
+            div.set_inner_html(html);    
+            
+            Html::VRef(div.into())
         }
         else{
 
