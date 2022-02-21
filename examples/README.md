@@ -31,6 +31,7 @@ As an example, check out the TodoMVC example here: <https://examples.yew.rs/todo
 | Example                                            | CT | Description                                                                                                                        |
 | -------------------------------------------------- | -- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | [agents](agents)                                   | S  | Cross-component communication using [Agents](https://yew.rs/docs/concepts/agents)                                                  |
+| [async_reqwest](async_reqwest)                     | S  | Web requests asynchronously using reqwest and rendering fetched html (https://github.com/seanmonstar/reqwest)                     |
 | [boids](boids)                                     | S  | Yew port of [Boids](https://en.wikipedia.org/wiki/Boids)                                                                           |
 | [contexts](contexts)                               | F  | A technical demonstration of Context API.                                                                                          |
 | [counter](counter)                                 | S  | Simple counter which can be incremented and decremented                                                                            |
