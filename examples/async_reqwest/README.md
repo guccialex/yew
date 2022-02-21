@@ -1,20 +1,16 @@
 # Futures Example
 
-[![Demo](https://img.shields.io/website?label=demo&url=https%3A%2F%2Fexamples.yew.rs%2Ffutures)](https://examples.yew.rs/futures)
+[![Demo](https://img.shields.io/website?label=demo&url=https%3A%2F%2Fexamples.yew.rs%2Fasync_reqwest)](https://examples.yew.rs/async_reqwest)
 
-Fetches Yew's README file and renders it to the page.
+Fetches Yew's README file and renders it to the page. Similarly to the /futures example
 
 ## Concepts
 
-This example shows off how to make asynchronous fetch requests using `web-sys` and Yew's futures support.
-It makes use of yewtil's [`LinkFuture`] to easily send messages asynchronously.
-It also contains a Markdown renderer which manually creates `Html` without using the `html!` macro.
+How to run async functions using ctx.link().send_future
+Fetching requests with the Reqwest library on yew
+An example of the simplest way to make requests with yew
+Setting the body of the document to the HTML using gloo_utils
 
 ## Improvements
 
-- Markdown rendering code should be cleaned up.
-- Should make use of CSS to style the output.
-- This example could use a better name.
-- Since this features a Markdown renderer it should be possible to render more than just one document.
-
-[`linkfuture`]: https://docs.rs/yewtil/latest/yewtil/future/trait.LinkFuture.html
+- It'd be nice if it could process json and show off more of how to use reqwest to do common fetching tasks but it's unclear where to find a json api that supports CORS

@@ -1,13 +1,11 @@
 use yew::{html, Component, Context, Html};
-mod safehtml;
-use safehtml::SafeHtml;
 
-//has to fetch from an address that allows CORS
-const ADDRESS: &str = "https://raw.githubusercontent.com/yewstack/yew/master/README.md";
 
-struct FetchError;
+//fetch from the trunk server, the data in the files
+async fn fetch_yew_readme( )  -> Option<String>{
 
-async fn fetch_html( url: &str )  -> Result<String, FetchError>{
+    //whatever api you call must have the same origin or allow CORS
+    let url = "https://raw.githubusercontent.com/yewstack/yew/master/README.md";
 
     let client = reqwest::Client::new();
 
@@ -15,19 +13,25 @@ async fn fetch_html( url: &str )  -> Result<String, FetchError>{
         .send();
 
     if let Ok(response) = future.await{
-        return Ok( response.text().await.unwrap()  );
+
+        if let Ok(html) = response.text().await{
+
+            return Some( html );
+        }
     }
-    return Err( FetchError );
+
+    return None;
 }
 
 enum Msg {
     FetchHtml,
-    SetHtml(String),
+    SetHtml( String ),
     Error,
 }
 
 struct App {
-    fetchedhtml: Option<String>,
+
+    htmltorender: Option<String>,
 }
 
 impl Component for App {
@@ -37,17 +41,19 @@ impl Component for App {
     fn create(_ctx: &Context<Self>) -> Self {
 
         Self {
-            fetchedhtml: None,
+            htmltorender: None,
         }
     }
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             Msg::FetchHtml => {
-                //runs the future in the background
+
+                //runs the future in the background and when the async function returns
+                //it calls update on this component with the returned message
                 ctx.link().send_future(async {
 
-                    if let Ok( html ) = fetch_html( ADDRESS ).await{
+                    if let Some( html ) = fetch_yew_readme( ).await{
                         Msg::SetHtml( html )
                     }
                     else{
@@ -57,7 +63,7 @@ impl Component for App {
                 false
             }
             Msg::SetHtml( html ) => {
-                self.fetchedhtml = Some(html);
+                self.htmltorender = Some(html);
                 true
             }
             Msg::Error => {
@@ -67,17 +73,22 @@ impl Component for App {
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
-        if let Some(html) = &self.fetchedhtml{
-            html!{
-                <SafeHtml html={ html.clone() } />
-            }
+
+        if let Some(html) = &self.htmltorender{
+
+            //Set the html of the body of the document            
+            gloo_utils::body().set_inner_html(&html.clone());
+
+            html!{}
         }
         else{
 
             html!{
-                <button onclick={ctx.link().callback(|_| Msg::FetchHtml)}>
-                    { "Fetch Html" }
-                </button>
+                <>
+                    <button onclick={ctx.link().callback(|_| Msg::FetchHtml)}>
+                        { "Fetch and render the html in the Yew readme" }
+                    </button>
+                </>
             }
         }
     }
