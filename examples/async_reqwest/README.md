@@ -6,10 +6,10 @@ Fetches Yew's README file and renders it to the page. Similarly to the /futures 
 
 ## Concepts
 
-How to run async functions using ctx.link().send_future
+Run async functions using ctx.link().send_future
 Fetching requests with the Reqwest library on yew
 An example of the simplest way to make requests with yew
-Setting the body of the document to the HTML using gloo_utils
+Rendering HTML using gloo_utils
 
 ## Improvements
 
